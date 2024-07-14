@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button, Box, Stepper, Step, StepLabel } from "@mui/material";
+import { Button, Box } from "@mui/material";
+import { styled } from "@mui/system";
 import StepContent from "../helpers/StepContent";
 import { useDispatch, useSelector } from "react-redux";
 import { submitForm } from "../store/actions/formActions";
 import { RootState, AppDispatch } from "../store";
 import { setFormData } from "../store/reducers/formReducer"; // Importar setFormData desde el reductor
+import StepperComponent from "./Stepper"; // Importar el StepperComponent
 
 const steps = [
   "Datos del Álbum",
@@ -13,6 +15,18 @@ const steps = [
   "Atributos de la Canción",
   "Características Adicionales",
 ];
+
+const CustomButton = styled(Button)({
+  backgroundColor: "#1DB954", // Color verde de Spotify
+  color: "#FFFFFF", // Texto blanco
+  "&:hover": {
+    backgroundColor: "#1ED760", // Verde más claro al pasar el cursor
+  },
+  "&:disabled": {
+    backgroundColor: "#535353", // Gris para el botón deshabilitado
+    color: "#9ca3af", // Texto gris oscuro para el botón deshabilitado
+  },
+});
 
 const Form = () => {
   const methods = useForm({
@@ -65,23 +79,18 @@ const Form = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleNext)} className="space-y-4">
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label, index) => (
-            <Step key={label} completed={index < activeStep}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
+        <StepperComponent activeStep={activeStep} />{" "}
+        {/* Usar StepperComponent */}
         <Box>
           <StepContent step={activeStep} />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-          <Button disabled={activeStep === 0} onClick={handleBack}>
+          <CustomButton disabled={activeStep === 0} onClick={handleBack}>
             Atrás
-          </Button>
-          <Button type="submit">
+          </CustomButton>
+          <CustomButton type="submit">
             {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
-          </Button>
+          </CustomButton>
         </Box>
       </form>
     </FormProvider>

@@ -7,8 +7,10 @@ module.exports = {
         'sans': ['Roboto', 'sans-serif'],
       },
       colors: {
-        darkGray: '#9ca3af', // Color gris oscuro personalizado
-        lightGray: '#3d3d3d', // Color gris ligeramente más claro
+        spotifyBlack: '#191414', // Fondo negro similar al de Spotify
+        spotifyGreen: '#1DB954', // Verde característico de Spotify
+        spotifyGray: '#121212', // Gris oscuro usado en algunas áreas de Spotify
+        spotifyLightGray: '#535353', // Gris claro usado en algunos textos y bordes
       },
     },
   },

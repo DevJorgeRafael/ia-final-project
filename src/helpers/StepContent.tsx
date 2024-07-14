@@ -3,6 +3,7 @@ import { useFormContext, Controller } from "react-hook-form";
 import { TextField, Autocomplete, Tooltip, IconButton, MenuItem, InputLabel, FormHelperText, FormControl, Select } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 import genreOptions from "../helpers/genres";
+import algorithmsOptions from "./algorithms";
 
 const StepContent: React.FC<{ step: number }> = ({ step }) => {
   const {
@@ -432,7 +433,45 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                   genreOptions.find((option) => option.value === field.value) ||
                   null
                 }
-                isOptionEqualToValue={(option, value) => option.value === value.value}
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
+                autoHighlight
+                clearOnEscape
+              />
+            )}
+          />
+
+          <Controller
+            name="algorithm"
+            control={control}
+            defaultValue={null}
+            render={({ field }) => (
+              <Autocomplete
+                {...field}
+                options={algorithmsOptions}
+                getOptionLabel={(option) => option.label || ""}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Algoritmo para calcular"
+                    variant="outlined"
+                    error={!!errors.track_genre}
+                    helperText={errors.track_genre?.message as string}
+                    fullWidth
+                    margin="normal"
+                  />
+                )}
+                onChange={(event, value) =>
+                  field.onChange(value ? value.value : null)
+                }
+                value={
+                  algorithmsOptions.find((option) => option.value === field.value) ||
+                  null
+                }
+                isOptionEqualToValue={(option, value) =>
+                  option.value === value.value
+                }
                 autoHighlight
                 clearOnEscape
               />

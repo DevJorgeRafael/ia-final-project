@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply bg-darkGray text-white font-sans;
+    @apply bg-spotifyBlack text-white font-sans;
 }
