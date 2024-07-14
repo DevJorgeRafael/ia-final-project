@@ -410,6 +410,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             name="track_genre"
             control={control}
             defaultValue={null}
+            rules={{ required: "Género de la Canción es obligatorio" }}
             render={({ field }) => (
               <Autocomplete
                 {...field}
@@ -446,6 +447,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             name="algorithm"
             control={control}
             defaultValue={null}
+            rules={{ required: "Algoritmo es obligatorio" }}
             render={({ field }) => (
               <Autocomplete
                 {...field}
