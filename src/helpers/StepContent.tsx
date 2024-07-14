@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { TextField, Autocomplete, Tooltip, IconButton, MenuItem, InputLabel, FormHelperText, FormControl, Select } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,11 +11,6 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
     register,
     formState: { errors },
   } = useFormContext();
-  const [selectedGenre, setSelectedGenre] = useState<any>(null);
-
-  useEffect(() => {
-    setSelectedGenre(null); // Resetea el valor cuando se cambia de step
-  }, [step]);
 
   switch (step) {
     case 0:
@@ -427,7 +422,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                     margin="normal"
                   />
                 )}
-                onChange={(event, value) =>
+                onChange={(_, value) =>
                   field.onChange(value ? value.value : null)
                 }
                 value={
@@ -464,7 +459,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                     margin="normal"
                   />
                 )}
-                onChange={(event, value) =>
+                onChange={(_, value) =>
                   field.onChange(value ? value.value : null)
                 }
                 value={
