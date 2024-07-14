@@ -1,13 +1,6 @@
-import React from "react";
-import {
-  Box,
-  Stepper,
-  Step,
-  StepButton,
-  Button,
-  Typography
-} from "@mui/material";
+import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
+import { Button, Box, Stepper, Step, StepLabel } from "@mui/material";
 import StepContent from "../helpers/StepContent";
 
 const steps = [
@@ -18,86 +11,71 @@ const steps = [
 ];
 
 const Form = () => {
-  const methods = useForm();
-  const { handleSubmit, trigger, reset } = methods;
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [stepData, setStepData] = React.useState({});
+  const methods = useForm({
+    defaultValues: {
+      album_name: "",
+      track_name: "",
+      duration_ms: "",
+      explicit: "",
+      danceability: "",
+      energy: "",
+      key: "",
+      loudness: "",
+      mode: "",
+      speechiness: "",
+      acousticness: "",
+      instrumentalness: "",
+      liveness: "",
+      valence: "",
+      tempo: "",
+      time_signature: "",
+      track_genre: null,
+    },
+  });
 
-  const handleNext = async () => {
-    const valid = await trigger();
-    if (valid) {
-      const currentData = methods.getValues();
-      setStepData((prev) => ({ ...prev, ...currentData }));
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      reset(); // Resetear los valores del formulario
+  const [activeStep, setActiveStep] = useState(0);
+  const [formData, setFormData] = useState(methods.getValues());
+
+  const handleNext = (data: any) => {
+    setFormData((prevData) => ({ ...prevData, ...data }));
+
+    if (activeStep < steps.length - 1) {
+      setActiveStep(activeStep + 1);
+      methods.reset({ ...formData, ...data });
+    } else {
+      console.log({ ...formData, ...data }); // Aquí enviarás los datos completos al backend
     }
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // Aquí enviarás los datos a tu API y manejarás la respuesta
+    if (activeStep > 0) {
+      setActiveStep(activeStep - 1);
+      methods.reset(formData);
+    }
   };
 
   return (
     <FormProvider {...methods}>
-      <Box sx={{ width: "100%" }}>
-        <Box
-          sx={{ width: "100%", maxWidth: 600, margin: "0 auto", padding: 4 }}
-        >
-          <Stepper
-            nonLinear
-            activeStep={activeStep}
-            alternativeLabel
-            sx={{ width: "100%" }}
-          >
-            {steps.map((label, index) => (
-              <Step key={label} completed={activeStep > index}>
-                <StepButton
-                  color="inherit"
-                  onClick={() => setActiveStep(index)}
-                >
-                  <Typography variant="caption" noWrap>
-                    {label}
-                  </Typography>
-                </StepButton>
-              </Step>
-            ))}
-          </Stepper>
-          <div>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="space-y-4"
-              style={{ width: "100%" }}
-            >
-              <StepContent step={activeStep} />
-              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Atrás
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                {activeStep === steps.length - 1 ? (
-                  <Button type="submit" variant="contained">
-                    Enviar
-                  </Button>
-                ) : (
-                  <Button variant="contained" onClick={handleNext}>
-                    Siguiente
-                  </Button>
-                )}
-              </Box>
-            </form>
-          </div>
+      <form onSubmit={methods.handleSubmit(handleNext)} className="space-y-4">
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label, index) => (
+            <Step key={label} completed={index < activeStep}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Box>
+          <StepContent step={activeStep} />
         </Box>
-      </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+          <Button disabled={activeStep === 0} onClick={handleBack}>
+            Atrás
+          </Button>
+          <Button type="submit">
+            {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
+          </Button>
+        </Box>
+      </form>
     </FormProvider>
   );
 };
