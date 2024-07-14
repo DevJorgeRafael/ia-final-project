@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { Button, Box, Stepper, Step, StepLabel } from "@mui/material";
 import StepContent from "../helpers/StepContent";
+import { useDispatch, useSelector } from "react-redux";
+import { submitForm } from "../store/actions/formActions";
+import { RootState, AppDispatch } from "../store";
+import { setFormData } from "../store/reducers/formReducer"; // Importar setFormData desde el reductor
 
 const steps = [
   "Datos del Álbum",
@@ -33,11 +37,12 @@ const Form = () => {
     },
   });
 
+  const dispatch = useDispatch<AppDispatch>();
+  const formData = useSelector((state: RootState) => state.form.formData);
   const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState(methods.getValues());
 
   const handleNext = (data: any) => {
-    setFormData((prevData) => ({ ...prevData, ...data }));
+    dispatch(setFormData({ ...formData, ...data }));
 
     if (activeStep < steps.length - 1) {
       setActiveStep(activeStep + 1);
@@ -45,7 +50,8 @@ const Form = () => {
     } else {
       const allData: any = { ...formData, ...data };
       allData.duration_ms = allData.duration_ms * 1000;
-      console.log(allData); 
+      console.log(allData);
+      dispatch(submitForm(allData));
     }
   };
 
