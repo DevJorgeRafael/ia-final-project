@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button, Box } from "@mui/material";
+import {
+  Button,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+} from "@mui/material";
 import { styled } from "@mui/system";
 import StepContent from "../helpers/StepContent";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +16,7 @@ import { submitForm } from "../store/actions/formActions";
 import { RootState, AppDispatch } from "../store";
 import { setFormData } from "../store/reducers/formReducer"; // Importar setFormData desde el reductor
 import StepperComponent from "./Stepper"; // Importar el StepperComponent
+import axios from "axios";
 
 const steps = [
   "Datos del Álbum",
@@ -54,8 +63,10 @@ const Form = () => {
   const dispatch = useDispatch<AppDispatch>();
   const formData = useSelector((state: RootState) => state.form.formData);
   const [activeStep, setActiveStep] = useState(0);
+  const [open, setOpen] = useState(false); // Estado para el diálogo
+  const [result, setResult] = useState<number | null>(null); // Estado para el resultado de la API
 
-  const handleNext = (data: any) => {
+  const handleNext = async (data: any) => {
     dispatch(setFormData({ ...formData, ...data }));
 
     if (activeStep < steps.length - 1) {
@@ -65,7 +76,16 @@ const Form = () => {
       const allData: any = { ...formData, ...data };
       allData.duration_ms = allData.duration_ms * 1000;
       console.log(allData);
-      dispatch(submitForm(allData));
+      try {
+        setResult(30)
+        // const response = await axios.post("/api/submit", allData);
+        // const { popularity } = response.data;
+        // setResult(popularity);
+        setOpen(true);
+        // dispatch(submitForm(allData));
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+      }
     }
   };
 
@@ -76,11 +96,14 @@ const Form = () => {
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handleNext)} className="space-y-4">
         <StepperComponent activeStep={activeStep} />{" "}
-        {/* Usar StepperComponent */}
         <Box>
           <StepContent step={activeStep} />
         </Box>
@@ -93,6 +116,29 @@ const Form = () => {
           </CustomButton>
         </Box>
       </form>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle className="font-bold">
+          Resultado de Popularidad
+        </DialogTitle>
+        <DialogContent>
+          <Typography variant="h6">
+            La popularidad de tu canción es: {result}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleClose}
+            sx={{
+              backgroundColor: "#1DB954",
+              color: "#FFFFFF",
+              "&:hover": { backgroundColor: "#0e5c2a" },
+            }}
+          >
+            Cerrar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </FormProvider>
   );
 };
