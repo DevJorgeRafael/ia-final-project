@@ -44,13 +44,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           />
           <TextField
             {...register("duration_ms", {
-              required: "Duración (ms) es obligatorio",
+              required: "Duración (s) es obligatorio",
               valueAsNumber: true,
             })}
             label={
               <>
-                Duración (ms)
-                <Tooltip title="Duración de la canción en milisegundos.">
+                Duración (s)
+                <Tooltip title="Duración de la canción en segundos.">
                   <IconButton>
                     <InfoIcon fontSize="small" />
                   </IconButton>
@@ -118,6 +118,8 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             {...register("danceability", {
               required: "Bailabilidad es obligatorio",
               valueAsNumber: true,
+              validate: (value) =>
+                (value >= 0.0 && value <= 1.0) || "Debe estar entre 0.0 y 1.0",
             })}
             label={
               <>
@@ -131,15 +133,19 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             }
             variant="outlined"
             type="number"
+            inputProps={{ step: "any", min: "0.0", max: "1.0" }}
             error={!!errors.danceability}
-            helperText={errors.danceability?.message as String}
+            helperText={errors.danceability?.message as string}
             fullWidth
             margin="normal"
           />
+
           <TextField
             {...register("energy", {
               required: "Energía es obligatorio",
               valueAsNumber: true,
+              validate: (value) =>
+                (value >= 0.0 && value <= 1.0) || "Debe estar entre 0.0 y 1.0",
             })}
             label={
               <>
@@ -153,11 +159,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             }
             variant="outlined"
             type="number"
+            inputProps={{ step: "any", min: "0.0", max: "1.0" }}
             error={!!errors.energy}
-            helperText={errors.energy?.message as String}
+            helperText={errors.energy?.message as string}
             fullWidth
             margin="normal"
           />
+
           <TextField
             {...register("key", {
               required: "Key es obligatorio",
@@ -211,8 +219,9 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             {...register("mode", {
               required: "Modo es obligatorio",
               valueAsNumber: true,
+              validate: (value) =>
+                value === 0 || value === 1 || "Debe ser 0 (Menor) o 1 (Mayor)",
             })}
-            select
             label={
               <>
                 Modo
@@ -224,14 +233,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               </>
             }
             variant="outlined"
+            type="number"
+            inputProps={{ step: 1, min: 0, max: 1 }}
             error={!!errors.mode}
-            helperText={errors.mode?.message as String}
+            helperText={errors.mode?.message as string}
             fullWidth
             margin="normal"
-          >
-            <MenuItem value={1}>Mayor (1)</MenuItem>
-            <MenuItem value={0}>Menor (0)</MenuItem>
-          </TextField>
+          />
 
           <TextField
             {...register("speechiness", {
@@ -259,6 +267,9 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             {...register("acousticness", {
               required: "Acústica es obligatorio",
               valueAsNumber: true,
+              validate: (value) =>
+                (value >= 0 && value <= 1) ||
+                "Debe ser un valor entre 0.0 y 1.0",
             })}
             label={
               <>
@@ -272,11 +283,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             }
             variant="outlined"
             type="number"
+            inputProps={{ step: "any", min: 0, max: 1 }}
             error={!!errors.acousticness}
-            helperText={errors.acousticness?.message as String}
+            helperText={errors.acousticness?.message as string}
             fullWidth
             margin="normal"
           />
+
           <TextField
             {...register("instrumentalness", {
               required: "Instrumental es obligatorio",
@@ -325,7 +338,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             margin="normal"
           />
           <TextField
-            {...register("valence", { required: "Valencia es obligatorio" })}
+            {...register("valence", {
+              required: "Valencia es obligatorio",
+              valueAsNumber: true,
+              validate: (value) =>
+                (value >= 0 && value <= 1) ||
+                "Debe ser un valor entre 0.0 y 1.0",
+            })}
             label={
               <>
                 Valencia
@@ -338,11 +357,13 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             }
             variant="outlined"
             type="number"
+            inputProps={{ step: "any", min: 0, max: 1 }}
             error={!!errors.valence}
-            helperText={errors.valence?.message as String}
+            helperText={errors.valence?.message as string}
             fullWidth
             margin="normal"
           />
+
           <TextField
             {...register("tempo", { required: "Tempo es obligatorio" })}
             label={
@@ -399,7 +420,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                     label="Género de la Canción"
                     variant="outlined"
                     error={!!errors.track_genre}
-                    helperText={errors.track_genre?.message as String}
+                    helperText={errors.track_genre?.message as string}
                     fullWidth
                     margin="normal"
                   />
@@ -407,7 +428,11 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                 onChange={(event, value) =>
                   field.onChange(value ? value.value : null)
                 }
-                isOptionEqualToValue={(option, value) => option.value === value}
+                value={
+                  genreOptions.find((option) => option.value === field.value) ||
+                  null
+                }
+                isOptionEqualToValue={(option, value) => option.value === value.value}
                 autoHighlight
                 clearOnEscape
               />

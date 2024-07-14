@@ -44,6 +44,7 @@ const Form = () => {
       methods.reset({ ...formData, ...data });
     } else {
       const allData: any = { ...formData, ...data };
+      allData.duration_ms = allData.duration_ms * 1000;
       console.log(allData); 
     }
   };
