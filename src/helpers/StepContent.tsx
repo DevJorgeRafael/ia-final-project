@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useFormContext, Controller } from "react-hook-form";
-import { TextField, Autocomplete } from "@mui/material";
+import { TextField, Autocomplete, Tooltip, IconButton, MenuItem, InputLabel, FormHelperText, FormControl, Select } from "@mui/material";
+import InfoIcon from '@mui/icons-material/Info';
 import genreOptions from "../helpers/genres";
 
 const StepContent: React.FC<{ step: number }> = ({ step }) => {
@@ -46,7 +47,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Duración (ms) es obligatorio",
               valueAsNumber: true,
             })}
-            label="Duración (ms)"
+            label={
+              <>
+                Duración (ms)
+                <Tooltip title="Duración de la canción en milisegundos.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.duration_ms}
@@ -54,19 +64,51 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             fullWidth
             margin="normal"
           />
-          <TextField
-            {...register("explicit", {
-              required: "Explícito es obligatorio",
-              valueAsNumber: true,
-            })}
-            label="Explícito"
-            variant="outlined"
-            type="number"
-            error={!!errors.explicit}
-            helperText={errors.explicit?.message as String}
+          <FormControl
             fullWidth
+            variant="outlined"
             margin="normal"
-          />
+            error={!!errors.explicit}
+          >
+            <InputLabel id="explicit-label">
+              <>
+                Explícito
+                <Tooltip title="Indica si la canción tiene contenido explícito">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            </InputLabel>
+            <Controller
+              name="explicit"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Explícito es obligatorio" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  labelId="explicit-label"
+                  label={
+                    <>
+                      Explícito
+                      <Tooltip title="Indica si la canción tiene contenido explícito">
+                        <IconButton>
+                          <InfoIcon fontSize="small" />
+                        </IconButton>
+                      </Tooltip>
+                    </>
+                  }
+                >
+                  <MenuItem value={0}>No</MenuItem>
+                  <MenuItem value={1}>Sí</MenuItem>
+                </Select>
+              )}
+            />
+            <FormHelperText>
+              {errors.explicit?.message as String}
+            </FormHelperText>
+          </FormControl>
         </>
       );
     case 1:
@@ -77,7 +119,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Bailabilidad es obligatorio",
               valueAsNumber: true,
             })}
-            label="Bailabilidad"
+            label={
+              <>
+                Bailabilidad
+                <Tooltip title="Describe qué tan adecuada es una pista para bailar, basada en elementos musicales. Valor de 0.0 a 1.0.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.danceability}
@@ -90,7 +141,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Energía es obligatorio",
               valueAsNumber: true,
             })}
-            label="Energía"
+            label={
+              <>
+                Energía
+                <Tooltip title="Una medida de 0.0 a 1.0 que representa la intensidad y actividad perceptual.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.energy}
@@ -103,7 +163,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Key es obligatorio",
               valueAsNumber: true,
             })}
-            label="Key"
+            label={
+              <>
+                Key
+                <Tooltip title="La clave de la pista. Los enteros se asignan a tonos usando la notación Pitch Class.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.key}
@@ -116,7 +185,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Volumen es obligatorio",
               valueAsNumber: true,
             })}
-            label="Volumen"
+            label={
+              <>
+                Volumen
+                <Tooltip title="El volumen general de una pista en decibelios (dB).">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.loudness}
@@ -130,24 +208,46 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
       return (
         <>
           <TextField
-            {...register("mode", { 
+            {...register("mode", {
               required: "Modo es obligatorio",
               valueAsNumber: true,
-             })}
-            label="Modo"
+            })}
+            select
+            label={
+              <>
+                Modo
+                <Tooltip title="Indica la modalidad (mayor o menor) de la pista. Mayor se representa con 1 y menor con 0.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
-            type="number"
             error={!!errors.mode}
             helperText={errors.mode?.message as String}
             fullWidth
             margin="normal"
-          />
+          >
+            <MenuItem value={1}>Mayor (1)</MenuItem>
+            <MenuItem value={0}>Menor (0)</MenuItem>
+          </TextField>
+
           <TextField
-            {...register("speechiness", { 
+            {...register("speechiness", {
               required: "Habla es obligatorio",
               valueAsNumber: true,
-             })}
-            label="Habla"
+            })}
+            label={
+              <>
+                Habla
+                <Tooltip title="Detecta la presencia de palabras habladas en una pista. Valores más altos indican una mayor presencia de palabras habladas.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.speechiness}
@@ -160,7 +260,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Acústica es obligatorio",
               valueAsNumber: true,
             })}
-            label="Acústica"
+            label={
+              <>
+                Acústica
+                <Tooltip title="Una medida de confianza de 0.0 a 1.0 de si la pista es acústica.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.acousticness}
@@ -173,7 +282,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Instrumental es obligatorio",
               valueAsNumber: true,
             })}
-            label="Instrumental"
+            label={
+              <>
+                Instrumental
+                <Tooltip title="Predice si una pista no contiene voces. Valores más altos indican una mayor probabilidad de que la pista sea instrumental.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.instrumentalness}
@@ -183,15 +301,22 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           />
         </>
       );
+
     case 3:
       return (
         <>
           <TextField
-            {...register("liveness", { 
-              required: "Vivacidad es obligatorio",
-              valueAsNumber: true,
-             })}
-            label="Vivacidad"
+            {...register("liveness", { required: "Vivacidad es obligatorio" })}
+            label={
+              <>
+                Vivacidad
+                <Tooltip title="Detecta la presencia de una audiencia en la grabación. Valores altos indican una alta probabilidad de que la pista sea en vivo.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.liveness}
@@ -200,11 +325,17 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             margin="normal"
           />
           <TextField
-            {...register("valence", { 
-              required: "Valencia es obligatorio",
-              valueAsNumber: true,
-            })}
-            label="Valencia"
+            {...register("valence", { required: "Valencia es obligatorio" })}
+            label={
+              <>
+                Valencia
+                <Tooltip title="Medida de 0.0 a 1.0 que describe la positividad musical transmitida por una pista.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.valence}
@@ -213,11 +344,17 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
             margin="normal"
           />
           <TextField
-            {...register("tempo", { 
-              required: "Tempo es obligatorio",
-              valueAsNumber: true,
-             })}
-            label="Tempo"
+            {...register("tempo", { required: "Tempo es obligatorio" })}
+            label={
+              <>
+                Tempo
+                <Tooltip title="El tempo estimado de una pista en BPM (beats por minuto).">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.tempo}
@@ -230,7 +367,16 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               required: "Firma del Tiempo es obligatorio",
               valueAsNumber: true,
             })}
-            label="Firma del Tiempo"
+            label={
+              <>
+                Firma del Tiempo
+                <Tooltip title="La firma de tiempo de la canción.">
+                  <IconButton>
+                    <InfoIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </>
+            }
             variant="outlined"
             type="number"
             error={!!errors.time_signature}
@@ -246,12 +392,7 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
               <Autocomplete
                 {...field}
                 options={genreOptions}
-                getOptionLabel={(option) => option.label}
-                value={
-                  selectedGenre ||
-                  genreOptions.find((option) => option.value === field.value) ||
-                  null
-                }
+                getOptionLabel={(option) => option.label || ""}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -263,13 +404,10 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
                     margin="normal"
                   />
                 )}
-                onChange={(event, value) => {
-                  field.onChange(value ? value.value : null);
-                  setSelectedGenre(value);
-                }}
-                isOptionEqualToValue={(option, value) =>
-                  option.value === (value ? value.value : null)
+                onChange={(event, value) =>
+                  field.onChange(value ? value.value : null)
                 }
+                isOptionEqualToValue={(option, value) => option.value === value}
                 autoHighlight
                 clearOnEscape
               />
