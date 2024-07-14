@@ -12,11 +12,9 @@ import {
 import { styled } from "@mui/system";
 import StepContent from "../helpers/StepContent";
 import { useDispatch, useSelector } from "react-redux";
-import { submitForm } from "../store/actions/formActions";
 import { RootState, AppDispatch } from "../store";
 import { setFormData } from "../store/reducers/formReducer"; // Importar setFormData desde el reductor
 import StepperComponent from "./Stepper"; // Importar el StepperComponent
-import axios from "axios";
 
 const steps = [
   "Datos del Álbum",
