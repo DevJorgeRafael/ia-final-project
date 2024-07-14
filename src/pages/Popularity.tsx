@@ -6,7 +6,7 @@ const Popularity = () => {
       <h1 className="text-4xl font-bold text-white mb-8">
         Verifica la Popularidad
       </h1>
-      <div className="w-full max-w-md p-8 bg-slate-300 rounded-lg shadow-md">
+      <div className="w-full max-w-4xl p-8 bg-slate-300 rounded-lg shadow-md">
         <Form />
       </div>
     </div>
