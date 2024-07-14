@@ -15,20 +15,20 @@ const Form = () => {
     defaultValues: {
       album_name: "",
       track_name: "",
-      duration_ms: "",
-      explicit: "",
-      danceability: "",
-      energy: "",
-      key: "",
-      loudness: "",
-      mode: "",
-      speechiness: "",
-      acousticness: "",
-      instrumentalness: "",
-      liveness: "",
-      valence: "",
-      tempo: "",
-      time_signature: "",
+      duration_ms: 0,
+      explicit: 0,
+      danceability: 0,
+      energy: 0,
+      key: 0,
+      loudness: 0,
+      mode: 0,
+      speechiness: 0,
+      acousticness: 0,
+      instrumentalness: 0,
+      liveness: 0,
+      valence: 0,
+      tempo: 0,
+      time_signature: 0,
       track_genre: null,
     },
   });
@@ -43,7 +43,8 @@ const Form = () => {
       setActiveStep(activeStep + 1);
       methods.reset({ ...formData, ...data });
     } else {
-      console.log({ ...formData, ...data }); // Aquí enviarás los datos completos al backend
+      const allData: any = { ...formData, ...data };
+      console.log(allData); 
     }
   };
 

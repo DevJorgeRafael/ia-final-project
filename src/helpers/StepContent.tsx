@@ -44,18 +44,24 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           <TextField
             {...register("duration_ms", {
               required: "Duración (ms) es obligatorio",
+              valueAsNumber: true,
             })}
             label="Duración (ms)"
             variant="outlined"
+            type="number"
             error={!!errors.duration_ms}
             helperText={errors.duration_ms?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("explicit", { required: "Explícito es obligatorio" })}
+            {...register("explicit", {
+              required: "Explícito es obligatorio",
+              valueAsNumber: true,
+            })}
             label="Explícito"
             variant="outlined"
+            type="number"
             error={!!errors.explicit}
             helperText={errors.explicit?.message as String}
             fullWidth
@@ -69,36 +75,50 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           <TextField
             {...register("danceability", {
               required: "Bailabilidad es obligatorio",
+              valueAsNumber: true,
             })}
             label="Bailabilidad"
             variant="outlined"
+            type="number"
             error={!!errors.danceability}
             helperText={errors.danceability?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("energy", { required: "Energía es obligatorio" })}
+            {...register("energy", {
+              required: "Energía es obligatorio",
+              valueAsNumber: true,
+            })}
             label="Energía"
             variant="outlined"
+            type="number"
             error={!!errors.energy}
             helperText={errors.energy?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("key", { required: "Key es obligatorio" })}
+            {...register("key", {
+              required: "Key es obligatorio",
+              valueAsNumber: true,
+            })}
             label="Key"
             variant="outlined"
+            type="number"
             error={!!errors.key}
             helperText={errors.key?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("loudness", { required: "Volumen es obligatorio" })}
+            {...register("loudness", {
+              required: "Volumen es obligatorio",
+              valueAsNumber: true,
+            })}
             label="Volumen"
             variant="outlined"
+            type="number"
             error={!!errors.loudness}
             helperText={errors.loudness?.message as String}
             fullWidth
@@ -110,18 +130,26 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
       return (
         <>
           <TextField
-            {...register("mode", { required: "Modo es obligatorio" })}
+            {...register("mode", { 
+              required: "Modo es obligatorio",
+              valueAsNumber: true,
+             })}
             label="Modo"
             variant="outlined"
+            type="number"
             error={!!errors.mode}
             helperText={errors.mode?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("speechiness", { required: "Habla es obligatorio" })}
+            {...register("speechiness", { 
+              required: "Habla es obligatorio",
+              valueAsNumber: true,
+             })}
             label="Habla"
             variant="outlined"
+            type="number"
             error={!!errors.speechiness}
             helperText={errors.speechiness?.message as String}
             fullWidth
@@ -130,9 +158,11 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           <TextField
             {...register("acousticness", {
               required: "Acústica es obligatorio",
+              valueAsNumber: true,
             })}
             label="Acústica"
             variant="outlined"
+            type="number"
             error={!!errors.acousticness}
             helperText={errors.acousticness?.message as String}
             fullWidth
@@ -141,9 +171,11 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           <TextField
             {...register("instrumentalness", {
               required: "Instrumental es obligatorio",
+              valueAsNumber: true,
             })}
             label="Instrumental"
             variant="outlined"
+            type="number"
             error={!!errors.instrumentalness}
             helperText={errors.instrumentalness?.message as String}
             fullWidth
@@ -155,27 +187,39 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
       return (
         <>
           <TextField
-            {...register("liveness", { required: "Vivacidad es obligatorio" })}
+            {...register("liveness", { 
+              required: "Vivacidad es obligatorio",
+              valueAsNumber: true,
+             })}
             label="Vivacidad"
             variant="outlined"
+            type="number"
             error={!!errors.liveness}
             helperText={errors.liveness?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("valence", { required: "Valencia es obligatorio" })}
+            {...register("valence", { 
+              required: "Valencia es obligatorio",
+              valueAsNumber: true,
+            })}
             label="Valencia"
             variant="outlined"
+            type="number"
             error={!!errors.valence}
             helperText={errors.valence?.message as String}
             fullWidth
             margin="normal"
           />
           <TextField
-            {...register("tempo", { required: "Tempo es obligatorio" })}
+            {...register("tempo", { 
+              required: "Tempo es obligatorio",
+              valueAsNumber: true,
+             })}
             label="Tempo"
             variant="outlined"
+            type="number"
             error={!!errors.tempo}
             helperText={errors.tempo?.message as String}
             fullWidth
@@ -184,9 +228,11 @@ const StepContent: React.FC<{ step: number }> = ({ step }) => {
           <TextField
             {...register("time_signature", {
               required: "Firma del Tiempo es obligatorio",
+              valueAsNumber: true,
             })}
             label="Firma del Tiempo"
             variant="outlined"
+            type="number"
             error={!!errors.time_signature}
             helperText={errors.time_signature?.message as String}
             fullWidth
