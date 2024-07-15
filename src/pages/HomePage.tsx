@@ -20,10 +20,10 @@ const HomePage = () => {
       </h1>
       <p className="text-base sm:text-lg md:text-xl text-white mb-8 text-center">
         Desarrollado por:
-        <br /> De la Cruz Brayan
-        <br /> Echeverría Victor
-        <br /> Rosero Jorge
-        <br /> Sandoval Alan
+        <br /> <span className="font-bold text-xl"> De la Cruz Brayan </span>
+        <br /> <span className="font-bold text-xl"> Echeverría Victor </span>
+        <br /> <span className="font-bold text-xl"> Rosero Jorge </span>
+        <br /> <span className="font-bold text-xl"> Sandoval Alan </span>
       </p>
       <p className="text-base sm:text-lg md:text-lg text-white mb-8 text-center">
         Llena el formulario para que la IA te diga qué tan popular es tu canción
