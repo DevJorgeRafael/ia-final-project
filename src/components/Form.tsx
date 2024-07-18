@@ -82,7 +82,6 @@ const Form = () => {
     } else {
       const allData: any = { ...formData, ...data };
       allData.duration_ms = allData.duration_ms * 1000;
-      console.log(allData);
       try {
         dispatch(submitForm(allData));
       } catch (error) {
