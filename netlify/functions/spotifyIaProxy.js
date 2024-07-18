@@ -1,8 +1,6 @@
-const fetch = require('node-fetch');
-
 exports.handler = async (event) => {
     try {
-        const fetch = await import('node-fetch');
+        const fetch = await import('node-fetch').then(mod => mod.default);
 
         const response = await fetch.default('http://3.140.247.31/spotify-ia', {
             method: 'POST',
@@ -17,7 +15,6 @@ exports.handler = async (event) => {
         }
 
         const data = await response.json();
-        console.log(data)
 
         return {
             statusCode: 200,
