@@ -5,7 +5,7 @@ import { submitFormStart, submitFormSuccess, submitFormFailure } from '../reduce
 export const submitForm = (formData: Record<string, any>) => async (dispatch: AppDispatch) => {
     dispatch(submitFormStart());
     try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}`, formData);
+        const response = await axios.post(`/api/spotify-ia`, formData);
         const popularity = response.data.popularity;
         console.log(popularity)
         dispatch(submitFormSuccess(popularity));
