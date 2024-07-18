@@ -2,7 +2,9 @@ const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
     try {
-        const response = await fetch('http://3.140.247.31/spotify-ia', {
+        const apiUrl = process.env.API_URL; 
+
+        const response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
