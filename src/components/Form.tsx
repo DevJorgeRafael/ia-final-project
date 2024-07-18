@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import {
   Button,
@@ -8,13 +8,15 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  CircularProgress
 } from "@mui/material";
 import { styled } from "@mui/system";
 import StepContent from "../helpers/StepContent";
+import { submitForm } from "../store/actions/formActions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../store";
-import { setFormData } from "../store/reducers/formReducer"; // Importar setFormData desde el reductor
-import StepperComponent from "./Stepper"; // Importar el StepperComponent
+import { setFormData } from "../store/reducers/formReducer"; 
+import StepperComponent from "./Stepper"; 
 
 const steps = [
   "Datos del Álbum",
@@ -24,14 +26,14 @@ const steps = [
 ];
 
 const CustomButton = styled(Button)({
-  backgroundColor: "#1DB954", // Color verde de Spotify
-  color: "#FFFFFF", // Texto blanco
+  backgroundColor: "#1DB954", 
+  color: "#FFFFFF", 
   "&:hover": {
-    backgroundColor: "#1ED760", // Verde más claro al pasar el cursor
+    backgroundColor: "#1ED760",
   },
   "&:disabled": {
-    backgroundColor: "#535353", // Gris para el botón deshabilitado
-    color: "#9ca3af", // Texto gris oscuro para el botón deshabilitado
+    backgroundColor: "#535353", 
+    color: "#9ca3af", 
   },
 });
 
@@ -60,9 +62,16 @@ const Form = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const formData = useSelector((state: RootState) => state.form.formData);
+  const result = useSelector((state: RootState) => state.form.result);
+  const loading = useSelector((state: RootState) => state.form.loading);
   const [activeStep, setActiveStep] = useState(0);
-  const [open, setOpen] = useState(false); // Estado para el diálogo
-  const [result, setResult] = useState<number | null>(null); // Estado para el resultado de la API
+  const [open, setOpen] = useState(false); 
+
+  useEffect(() => {
+    if(result !== null) {
+      setOpen(true)
+    }
+  }, [result])
 
   const handleNext = async (data: any) => {
     dispatch(setFormData({ ...formData, ...data }));
@@ -75,12 +84,7 @@ const Form = () => {
       allData.duration_ms = allData.duration_ms * 1000;
       console.log(allData);
       try {
-        setResult(30)
-        // const response = await axios.post("/api/submit", allData);
-        // const { popularity } = response.data;
-        // setResult(popularity);
-        setOpen(true);
-        // dispatch(submitForm(allData));
+        dispatch(submitForm(allData));
       } catch (error) {
         console.error("Error al enviar el formulario:", error);
       }
@@ -113,6 +117,11 @@ const Form = () => {
             {activeStep === steps.length - 1 ? "Enviar" : "Siguiente"}
           </CustomButton>
         </Box>
+        {loading && (
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <CircularProgress />
+          </Box>
+        )}
       </form>
 
       <Dialog open={open} onClose={handleClose}>

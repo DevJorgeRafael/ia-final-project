@@ -4,37 +4,37 @@ interface FormState {
     formData: Record<string, any>;
     loading: boolean;
     error: string | null;
+    result: number | null;
 }
 
 const initialState: FormState = {
     formData: {},
     loading: false,
     error: null,
+    result: null,
 };
 
 const formSlice = createSlice({
     name: 'form',
     initialState,
     reducers: {
+        setFormData(state, action: PayloadAction<Record<string, any>>) {
+            state.formData = action.payload;
+        },
         submitFormStart(state) {
             state.loading = true;
             state.error = null;
         },
-        submitFormSuccess(state, action: PayloadAction<Record<string, any>>) {
+        submitFormSuccess(state, action: PayloadAction<number>) {
             state.loading = false;
-            state.formData = action.payload;
+            state.result = action.payload;
         },
         submitFormFailure(state, action: PayloadAction<string>) {
             state.loading = false;
             state.error = action.payload;
         },
-        setFormData(state, action: PayloadAction<Record<string, any>>) {
-            state.formData = action.payload;
-        },
     },
 });
 
-export const { submitFormStart, submitFormSuccess, submitFormFailure, setFormData } = formSlice.actions;
-
+export const { setFormData, submitFormStart, submitFormSuccess, submitFormFailure } = formSlice.actions;
 export default formSlice.reducer;
-export type { FormState }; // Exportamos FormState para su uso en el store
