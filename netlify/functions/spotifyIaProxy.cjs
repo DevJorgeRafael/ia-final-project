@@ -3,6 +3,10 @@ const fetch = require('node-fetch');
 exports.handler = async (event) => {
     try {
         const apiUrl = process.env.API_URL; 
+        if (!apiUrl) {
+            throw new Error("API_URL environment variable is not defined");
+        }
+        console.log(apiUrl)
 
         const response = await fetch(apiUrl, {
             method: 'POST',
